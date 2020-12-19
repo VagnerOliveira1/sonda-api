@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see Rails configuration guide
+  # https://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: postgres
+  host: localhost
+
+development:
+  <<: *default
+  database: sonda_api_development
+
+test:
+  <<: *default
+  database: sonda_api_test
+
+production:
+  <<: *default
+  database: sonda_api_production
+  username: sonda_api
+  password: <%= ENV['SONDA_API_DATABASE_PASSWORD'] %>
