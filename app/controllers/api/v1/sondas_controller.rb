@@ -1,6 +1,9 @@
 class Api::V1::SondasController < ApplicationController
-  before_action :set_sonda, only: [:show, :reset]
+  before_action :set_sonda, only: [:show, :reset, :index]
 
+  def index
+    @sonda = Sonda.move(params[:commands])
+  end
   def show
 
   end
@@ -8,6 +11,7 @@ class Api::V1::SondasController < ApplicationController
   def reset
     @sonda.face = "E"
     @sonda.coordinate_x = @sonda.coordinate_y = 0
+    @sonda.commands = []
     if @sonda.save!
       render json: {}, status: 204
     else
