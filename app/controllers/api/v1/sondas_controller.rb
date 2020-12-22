@@ -2,8 +2,13 @@ class Api::V1::SondasController < ApplicationController
   before_action :set_sonda, only: [:show, :reset, :index]
 
   def index
-    @sonda = Sonda.move(params[:commands])
+    begin
+      @sonda = Sonda.validate_commands_params(params[:commands])
+    rescue
+      {  message: "mensagem de erro.", success: false }
+    end
   end
+
   def show
 
   end
@@ -24,5 +29,6 @@ class Api::V1::SondasController < ApplicationController
   def set_sonda
     @sonda = Sonda.find(params[:id])
   end
+
 
 end
