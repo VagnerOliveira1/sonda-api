@@ -4,16 +4,39 @@ class Sonda < ApplicationRecord
   validates_inclusion_of :coordinate_y, :in => 0..4
 
   def self.move(commands)
+    mensagem = []
+    cont_y = cont_x = 0
+    eixo = " "
     commands.each_with_index do |c, index|
-      if c == 'GE'
-        set_face(c)
-      elsif c == 'GD'
-        set_face(c)
+      if c!= 'M'
+        if c == 'GE'
+          cont_x = cont_y = 0
+          mensagem << " Girou para Esquerda "
+          set_face(c)
+        elsif c == 'GD'
+          cont_x = cont_y = 0
+          mensagem << " girou para Direita"
+          set_face(c)
+        else
+          puts "comando inválido"
+        end
       else
         set_coordinates
+        if @sonda.face == 'C' || @sonda.face == 'B'
+          cont_y += 1
+        else
+          cont_x += 1
+        end
+      end
+      if c =='M' && commands[index+1] != 'M'
+        if cont_x > 0 || cont_y > 0
+          maior = cont_y > cont_x ? cont_y : cont_x
+          eixo =(@sonda.face.include?('D') || @sonda.face.include?('E')) ? " X " : " Y "
+          mensagem << " e andou #{maior} posições no eixo #{eixo}"
+        end
       end
     end
-    @sonda
+    #@sonda.sonda.commands.reduce.to_s.delete("[]")
   end
 
   def self.set_face(c)
@@ -26,7 +49,6 @@ class Sonda < ApplicationRecord
         #girou para a esquerda
       elsif c.include?('D')
         face = 'B'
-        #girou para a direita
       end
     when face.include?('D')
       if c.include?('D')
@@ -34,8 +56,18 @@ class Sonda < ApplicationRecord
       elsif c.include?('E')
         face = 'C'
       end
-    else
-      face = c[1]
+    when face.include?('C')
+      if c.include?('D')
+        face = 'D'
+      elsif c.include?('E')
+        face = 'E'
+      end
+    when face.include?('B')
+      if c.include?('D')
+        face = 'E'
+      elsif c.include?('E')
+        face = 'D'
+      end
     end
     @sonda.face = face
     @sonda.save!
@@ -53,6 +85,7 @@ class Sonda < ApplicationRecord
     elsif face == 'B'
       y -= 1
     end
+
     @sonda.coordinate_x += x
     @sonda.coordinate_y += y
     @sonda.save!
@@ -64,5 +97,4 @@ class Sonda < ApplicationRecord
       move(commands)
     end
   end
-
 end
