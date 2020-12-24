@@ -2,11 +2,9 @@ class Api::V1::SondasController < ApplicationController
   before_action :set_sonda, only: [:show, :reset, :index]
 
   def index
-    begin
-      @sonda = Sonda.validate_commands_params(params[:commands])
-    rescue
-      {  message: "mensagem de erro.", success: false }
-    end
+    @sonda = Sonda.validate_commands_params(params[:commands])
+  rescue
+    render json: { error: "Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv.", success: false }, status: :unprocessable_entity
   end
 
   def show

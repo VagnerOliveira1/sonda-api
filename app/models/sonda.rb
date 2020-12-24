@@ -6,6 +6,7 @@ class Sonda < ApplicationRecord
   def self.move(commands)
     @cont_y = @cont_x = 0
     loop_commands(commands)
+    @sonda.message = @message
     @sonda
   end
 
@@ -108,7 +109,7 @@ class Sonda < ApplicationRecord
     if @cont_x > 0 || @cont_y > 0
       maior = @cont_y > @cont_x ? @cont_y : @cont_x
       axis =(@sonda.face.include?('D') || @sonda.face.include?('E')) ? " X " : " Y "
-      @message+=" e andou #{maior} posições no eixo #{axis}"
+      @message+=" e andou #{maior} casas no eixo #{axis}"
     end
   end
 end
