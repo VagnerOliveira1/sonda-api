@@ -94,6 +94,8 @@ class Sonda < ApplicationRecord
     commands = commands.reduce.split(",").map { |co| co.delete("\"").strip}
     if commands.uniq.size == 3
       move(commands)
+    else
+      render json: { error: "Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv.", success: false }, status: :unprocessable_entity
     end
   end
 
