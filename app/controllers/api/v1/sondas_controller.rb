@@ -12,7 +12,7 @@ class Api::V1::SondasController < ApplicationController
   end
 
   def reset
-    @sonda.face = "E"
+    @sonda.face = "D"
     @sonda.coordinate_x = @sonda.coordinate_y = 0
     @sonda.commands = []
     if @sonda.save!
