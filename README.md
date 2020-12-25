@@ -29,6 +29,12 @@ Se pudéssemos visualizar a posição inicial, seria:
 `* Indica a direção inicial da nossa sonda`
 
 A intenção é controlar a sonda enviando a direção e quantidade de movimentos que ela deve executar. A resposta deve ser sua coordenada final caso o ponto se encontre dentro do quadrante, caso o ponto não possa ser alcançado a resposta deve ser um erro indicando que a posição é inválida. Para a execução do teste as dimensões de 5x5 pode ser usado.
+### Montar o ambiente
+  - Rails 6.0.3.4
+  - Ruby 2.7.1
+  - rails db:create
+  - rake db:migrate
+  - rake sonda:setup
 
 ### Endpoints
 
