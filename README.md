@@ -42,6 +42,14 @@ A intenção é controlar a sonda enviando a direção e quantidade de movimento
 - http://localhost:3000/api/v1/sondas/1/reset -> Volta para posição inicial
 - http://localhost:3000/api/v1/sondas/1/move?commands[]="GE","M","M","M","GD","M","M" -> Realiza Movimentos
 
+### EndPoints no Heroku
+https://tranquil-spire-20644.herokuapp.com/api/v1/sondas/1
+
+https://tranquil-spire-20644.herokuapp.com/api/v1/sondas/1/reset
+
+https://tranquil-spire-20644.herokuapp.com/api/v1/sondas/1/move?commands[]="GE"M",M","M","GD","M","M”
+
+
 
 Exemplo:
 
