@@ -2,6 +2,7 @@ class Sonda < ApplicationRecord
   validates_presence_of :face, :coordinate_x, :coordinate_y
   validates_inclusion_of :coordinate_x, :in => 0..4
   validates_inclusion_of :coordinate_y, :in => 0..4
+  validates_inclusion_of :face,in: %w(E D C B)
 
   def self.move(commands)
     @cont_y = @cont_x = 0
@@ -92,7 +93,8 @@ class Sonda < ApplicationRecord
 
   def self.validate_commands_params(commands)
     commands = commands.reduce.split(",").map { |co| co.delete("\"").strip}
-    if commands.uniq.size == 3
+    commands = commands.map{ |c| c.upcase }
+    if commands.uniq.size == 3 && commands_valid(commands).present?
       move(commands)
     else
       render json: { error: "Um movimento inválido foi detectado, infelizmente a sonda ainda não possui a habilidade de #vvv.", success: false }, status: :unprocessable_entity
@@ -114,4 +116,15 @@ class Sonda < ApplicationRecord
       @message+=" e andou #{maior} casas no eixo #{axis}"
     end
   end
+
+  def self.commands_valid(commands)
+    default =["GE","GD","M"]
+    commands.each do |c|
+      if !default.include?(c)
+        return nil
+      end
+    end
+    return true
+  end
+
 end
